@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { getAllUsers, createNewUserService } from '../../services/userService';
+import { getAllUsers, createNewUserService, deleteUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
+import { emitter } from '../../utils/emitter';
 
 class UserManage extends Component {
 
@@ -19,12 +20,23 @@ class UserManage extends Component {
         this.getAllUsersFromReact();        
     }
 
-    handleEditBtn = () => {
+    handleEditUser = () => {
         alert('Edit button clicked!');
     }
 
-    handleDeleteBtn = () => {
-        alert('Delete button clicked!');
+    handleDeleteUser = async (user) => {
+        try {
+            let response = await deleteUserService(user.id);
+            
+            if (response && response.errCode === 0) {
+                await this.getAllUsersFromReact();
+            } else {
+                alert(response.errMessage);
+            }
+
+        } catch (e) {
+            console.log(e);
+        }
     }
     
     handleAddNewUser = () => {
@@ -52,6 +64,7 @@ class UserManage extends Component {
     createNewUser = async (dataUser) => {
         try {
             let response = await createNewUserService(dataUser);
+            
             if (response && response.errCode !== 0) {
                 alert(response.errMessage);
             } else {
@@ -59,7 +72,11 @@ class UserManage extends Component {
                 this.setState({
                     isOpenModalUser: false,
                 })
+
+                // fire event 'EVENT_CLEAR_MODAL_DATA' to clear ModalUser's state
+                emitter.emit('EVENT_CLEAR_MODAL_DATA');
             }
+
         } catch (e) {
             console.log(e);            
         }
@@ -73,7 +90,7 @@ class UserManage extends Component {
                     isOpen={this.state.isOpenModalUser}
                     toggleFromParent={this.toggleUserModal}
                     createNewUser={this.createNewUser}
-                /> 
+                />
                 <div className="title text-center">Manage users with Origin Dev</div>
                 <div className="mx-1">
                     <button 
@@ -101,8 +118,8 @@ class UserManage extends Component {
                                             <td>{item.lastName}</td>
                                             <td>{item.address}</td>
                                             <td>
-                                                <button className="btn-edit" onClick={() => this.handleEditBtn()}><i className="far fa-edit"></i></button>
-                                                <button className="btn-delete" onClick={() => this.handleDeleteBtn()}><i className="far fa-trash-alt"></i></button>
+                                                <button className="btn-edit" onClick={() => this.handleEditUser()}><i className="far fa-edit"></i></button>
+                                                <button className="btn-delete" onClick={() => this.handleDeleteUser(item)}><i className="far fa-trash-alt"></i></button>
                                             </td>    
                                         </tr>
                                     )

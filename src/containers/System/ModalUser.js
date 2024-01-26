@@ -2,6 +2,7 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
+import { emitter } from "../../utils/emitter";
 
 class ModalUser extends Component {
 
@@ -14,6 +15,20 @@ class ModalUser extends Component {
             lastName: '',
             address: '',
         }
+
+        this.listenToEmitter();
+    }
+
+    listenToEmitter() {
+        emitter.on('EVENT_CLEAR_MODAL_DATA', () => {
+            this.setState({
+                email: '',
+                password: '',
+                firstName: '',
+                lastName: '',
+                address: '',
+            })
+        });
     }
 
     componentDidMount() {
@@ -134,5 +149,3 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ModalUser);
-
-
