@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
 import './UserManage.scss';
-import { getAllUsers, createNewUserService, deleteUserService } from '../../services/userService';
+import { getAllUsers, createNewUserService, deleteUserService, editUserService } from '../../services/userService';
 import ModalUser from './ModalUser';
 import { emitter } from '../../utils/emitter';
+import ModalEditUser from "./ModalEditUser";
 
 class UserManage extends Component {
 
@@ -13,6 +14,8 @@ class UserManage extends Component {
         this.state = {
             arrUsers: [],
             isOpenModalUser: false,
+            isOpenModalEditUser: false,
+            userEdit: {},
         }
     }
 
@@ -20,11 +23,13 @@ class UserManage extends Component {
         this.getAllUsersFromReact();        
     }
 
-    handleEditUser = () => {
-        alert('Edit button clicked!');
+    handleAddNewUser = () => {
+        this.setState({
+            isOpenModalUser: true,
+        })
     }
 
-    handleDeleteUser = async (user) => {
+    handleDeleteUserBtn = async (user) => {
         try {
             let response = await deleteUserService(user.id);
             
@@ -38,16 +43,23 @@ class UserManage extends Component {
             console.log(e);
         }
     }
-    
-    handleAddNewUser = () => {
+
+    handleEditUserBtn = (user) => {
         this.setState({
-            isOpenModalUser: true,
+            isOpenModalEditUser: true,
+            userEdit: user
         })
     }
     
     toggleUserModal = () => {
         this.setState({
             isOpenModalUser: false,
+        })
+    }
+
+    toggleUserEditModal = () => {
+        this.setState({
+            isOpenModalEditUser: false,
         })
     }
 
@@ -82,6 +94,25 @@ class UserManage extends Component {
         }
     }
 
+    editUser = async (user) => {
+        try {
+            let response = await editUserService(user);
+            
+            if (response && response.errCode === 0) {
+                this.setState({
+                    isOpenModalEditUser: false,
+                })
+
+                await this.getAllUsersFromReact();
+            } else {
+                alert(response.errCode);
+            }
+            
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     render() {
         let arrUsers = this.state.arrUsers;
         return (
@@ -91,6 +122,15 @@ class UserManage extends Component {
                     toggleFromParent={this.toggleUserModal}
                     createNewUser={this.createNewUser}
                 />
+                {
+                    this.state.isOpenModalEditUser === true && 
+                    <ModalEditUser 
+                        isOpen={this.state.isOpenModalEditUser}
+                        toggleFromParent={this.toggleUserEditModal}
+                        currentUser={this.state.userEdit}
+                        editUser={this.editUser}
+                    />
+                }
                 <div className="title text-center">Manage users with Origin Dev</div>
                 <div className="mx-1">
                     <button 
@@ -118,8 +158,8 @@ class UserManage extends Component {
                                             <td>{item.lastName}</td>
                                             <td>{item.address}</td>
                                             <td>
-                                                <button className="btn-edit" onClick={() => this.handleEditUser()}><i className="far fa-edit"></i></button>
-                                                <button className="btn-delete" onClick={() => this.handleDeleteUser(item)}><i className="far fa-trash-alt"></i></button>
+                                                <button className="btn-edit" onClick={() => this.handleEditUserBtn(item)}><i className="far fa-edit"></i></button>
+                                                <button className="btn-delete" onClick={() => this.handleDeleteUserBtn(item)}><i className="far fa-trash-alt"></i></button>
                                             </td>    
                                         </tr>
                                     )
