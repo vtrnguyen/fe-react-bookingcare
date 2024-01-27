@@ -6,6 +6,7 @@ import { getAllUsers, createNewUserService, deleteUserService, editUserService }
 import ModalUser from './ModalUser';
 import { emitter } from '../../utils/emitter';
 import ModalEditUser from "./ModalEditUser";
+import ModalDeleteUser from './ModalDeleteUser';
 
 class UserManage extends Component {
 
@@ -15,7 +16,9 @@ class UserManage extends Component {
             arrUsers: [],
             isOpenModalUser: false,
             isOpenModalEditUser: false,
+            isOpenModalDeleteUser: false,
             userEdit: {},
+            userDelete: {},
         }
     }
 
@@ -29,28 +32,20 @@ class UserManage extends Component {
         })
     }
 
-    handleDeleteUserBtn = async (user) => {
-        try {
-            let response = await deleteUserService(user.id);
-            
-            if (response && response.errCode === 0) {
-                await this.getAllUsersFromReact();
-            } else {
-                alert(response.errMessage);
-            }
-
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
     handleEditUserBtn = (user) => {
         this.setState({
             isOpenModalEditUser: true,
             userEdit: user
         })
     }
-    
+
+    handleDeleteUserBtn = (user) => {
+        this.setState({
+            isOpenModalDeleteUser: true,
+            userDelete: user,
+        })
+    }
+
     toggleUserModal = () => {
         this.setState({
             isOpenModalUser: false,
@@ -60,6 +55,12 @@ class UserManage extends Component {
     toggleUserEditModal = () => {
         this.setState({
             isOpenModalEditUser: false,
+        })
+    }
+
+    toggleUserDeleteModal = () => {
+        this.setState({
+            isOpenModalDeleteUser: false,
         })
     }
 
@@ -113,6 +114,31 @@ class UserManage extends Component {
         }
     }
 
+    deleteUser = async (isDelete) => {
+        if (isDelete === true) {
+            let deleteForceUser = this.state.userDelete;
+            try {
+                let response = await deleteUserService(deleteForceUser.id);
+                
+                if (response && response.errCode === 0) {
+                    await this.getAllUsersFromReact();
+                    this.setState({
+                        isOpenModalDeleteUser: false,
+                    })
+                } else {
+                    alert(response.errMessage);
+                }
+
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            this.setState({
+                isOpenModalDeleteUser: false,
+            })
+        }
+    }
+
     render() {
         let arrUsers = this.state.arrUsers;
         return (
@@ -131,6 +157,11 @@ class UserManage extends Component {
                         editUser={this.editUser}
                     />
                 }
+                <ModalDeleteUser 
+                        isOpen={this.state.isOpenModalDeleteUser}
+                        toggleFromParent={this.toggleUserDeleteModal}
+                        deleteUser={this.deleteUser}
+                />
                 <div className="title text-center">Manage users with Origin Dev</div>
                 <div className="mx-1">
                     <button 
