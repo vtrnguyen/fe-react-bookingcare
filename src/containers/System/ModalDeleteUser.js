@@ -35,7 +35,7 @@ class ModalEditUser extends Component {
                 isOpen={this.props.isOpen} 
                 toggle={() => { this.toggle() }} 
                 className="modal-user-container"
-                size="lg"
+                size="small"
             >
                 <ModalHeader toggle={() => { this.toggle() }}>DELETE USER</ModalHeader>
                     <ModalBody>
@@ -45,11 +45,17 @@ class ModalEditUser extends Component {
                     </ModalBody>
                 <ModalFooter>
                         <Button 
-                            color="primary" 
+                            color="danger" 
                             className="px-3" 
-                            onClick={() => { this.handleDeleteForceUser() }}>Save changes
+                            onClick={() => { this.handleDeleteForceUser() }}
+                            >Delete
                         </Button>
-                        <Button color="secondary" className="px-3" onClick={() => { this.toggle() }}>Close</Button>
+                        <Button 
+                            color="secondary" 
+                            className="px-3" 
+                            onClick={() => { this.toggle() }}
+                            >Close
+                        </Button>
                 </ModalFooter>
 
             </Modal>
