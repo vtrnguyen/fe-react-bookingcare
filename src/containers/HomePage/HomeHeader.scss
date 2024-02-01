@@ -53,3 +53,101 @@
         }
     }
 }
+
+.home-header-banner {
+    background: url("../../assets/header-background.jpg");
+    height: 526px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+
+    .content-up {
+        border: 1px solid yellow;
+        height: 50%;
+        padding: 16px;
+
+        .title-1 {
+            color: #8AAAE5;
+            text-align: center;
+            font-size: 30px;
+            text-shadow: 1px 1px 1px #333;
+            margin-top: 30px;
+            margin-bottom: 16px;
+        }
+    
+        .title-2 {
+            color: #8AAAE5;
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 30px;
+        }
+    
+        .search {
+            width: fit-content;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto;
+            padding: 10px;
+            border-radius: 30px;
+            background: #f7d800;
+    
+            i {
+                margin: 0 10px;
+            }
+    
+            input {
+                height: 30px;
+                width: 360px;
+                background: transparent;
+                border: none;
+                outline: none;
+            }
+        }
+    }
+
+    .content-down {
+        border: 1px solid blue;
+        height: 50%;
+
+        .options {
+            text-align: center;
+            display: flex;
+            gap: 50px;
+            justify-content: center;
+
+            .option-child {
+                width: 100px;
+                border: 1px solid red;
+                cursor: pointer;
+
+                .icon-child {
+                    background: white;
+                    width: 40px;
+                    height: 40px;
+                    padding: 10px;
+                    border-radius: 50%;
+                    text-align: center;
+                    margin: 0 auto;
+
+                    i {
+                        font-size: 20px;
+                        color: #49bce2;
+                    }
+                }
+
+                .text-child {
+                    font-size: 17px;
+                    font-weight: 500;
+
+                    &:hover {
+                        color: #49bce2;
+                    }
+                }
+            }
+        }
+    }
+
+}
