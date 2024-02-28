@@ -29,16 +29,27 @@
             color: $text-in-light;
             position: absolute;
             padding: 0;
+
             .menu {
                 width: 205px;
                 padding: 0 15px;
                 height: 35px;
                 line-height: 35px;
                 text-transform: none;
+
+                &.active {
+                    background-color: #ededed;
+
+                    a {
+                        color: #14c5c5 !important;
+                    }
+                }
+
                 .menu-link {
                     text-decoration: none;
                     color: $text-in-light;
                 }
+
                 .sub-menu-list {
                     display: none;
                     background-color: $bg-menu-color;
@@ -69,16 +80,20 @@
                         }
                     }
                 }
+
                 &.active span {
                     font-weight: 500;
                     color: $colormain;
                 }
+
                 &:hover {
                     background-color: darken($bg-menu-color, 3);
+                    
                     .sub-menu-list {
                         display: block;
                     }
                 }
+
                 .icon-right {
                     display: block;
                     position: absolute;
