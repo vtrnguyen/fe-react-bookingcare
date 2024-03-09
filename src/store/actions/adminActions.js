@@ -1,5 +1,9 @@
 import actionTypes from './actionTypes';
-import { createNewUserService, getAllCodeService, getAllUsers, deleteUserService } from '../../services/userService';
+import { 
+    createNewUserService, getAllCodeService, 
+    getAllUsers, deleteUserService,
+    editUserService
+} from '../../services/userService';
 import { toast } from 'react-toastify';
 
 // will call 2 function below: fetchGenderSuccess, fetchGenderFailed
@@ -139,11 +143,11 @@ export const deleteAUser = (userId) => {
         try {
             let res = await deleteUserService(userId);
             if (res && res.errCode === 0) {
-                toast.warn("Delete a user succeed!");
+                toast.success("Delete a user succeed!");
                 dispatch(deleteUserSuccess());
                 dispatch(fetchAllUserStart());
             } else {
-                toast.warn("Delete a user failed!");
+                toast.error("Delete a user failed!");
                 dispatch(deleteUserFailed());
             }
         } catch(e) {
@@ -160,4 +164,32 @@ export const deleteUserSuccess = () => ({
 
 export const deleteUserFailed = () => ({
     type: actionTypes.DELETE_USER_FAILED,
+})
+
+export const editAUser = (data) => {
+    return async (dispatch, getState) => {
+        try {
+            let res = await editUserService(data);
+            if (res && res.errCode === 0) {
+                toast.success("Update a user succeed!");
+                dispatch(editUserSuccess());
+                dispatch(fetchAllUserStart());
+            } else {
+                toast.error("Update a user failed!");
+                dispatch(editUserFailed());
+            }
+        } catch(e) {
+            toast.error("Update a user failed!");
+            dispatch(editUserFailed());
+            console.log('editUserFailed failed: ', e);
+        }
+    }
+}
+
+export const editUserSuccess = () => ({
+    type: actionTypes.EDIT_USER_SUCCESS,
+})
+
+export const editUserFailed = () => ({
+    type: actionTypes.EDIT_USER_FAILED,
 })
