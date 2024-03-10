@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';
-import { LANGUAGES, CRUD_ACTIONS } from "../../../utils";
+import { LANGUAGES, CRUD_ACTIONS, CommonUtils } from "../../../utils";
 import * as actions from "../../../store/actions";
 import './UserRedux.scss';
 import Lightbox from 'react-image-lightbox';
@@ -15,7 +15,7 @@ class UserRedux extends Component {
             genderArr: [],
             positionArr: [],
             roleArr: [],
-            previewImaUrl: '',
+            previewImgUrl: '',
             isOpen: false,
 
             email: '',
@@ -85,26 +85,28 @@ class UserRedux extends Component {
                 role: arrRoles && arrRoles.length ? arrRoles[0].key : '',
                 avatar: '',
                 action: CRUD_ACTIONS.CREATE,
+                previewImgUrl: '',
             });
         }
     }
 
-    handleOnChangeImage = (event) => {
+    handleOnChangeImage = async (event) => {
         let data = event.target.files;
         let file = data[0];
 
         if (file) {
             let objectUrl = URL.createObjectURL(file);
+            let base64 = await CommonUtils.getBase64(file);
             this.setState({
-                previewImaUrl: objectUrl,
-                avatar: file,
+                previewImgUrl: objectUrl,
+                avatar: base64,
             })
         }
 
     }
 
     openPreviewImage = () => {
-        if (!this.state.previewImaUrl) return;
+        if (!this.state.previewImgUrl) return;
         this.setState({
             isOpen: true,
         })
@@ -127,6 +129,7 @@ class UserRedux extends Component {
                 gender: this.state.gender,
                 roleId: this.state.role,
                 positionId: this.state.position,
+                avatar: this.state.avatar,
             });
         } 
 
@@ -143,7 +146,7 @@ class UserRedux extends Component {
                 gender: this.state.gender,
                 roleId: this.state.role,
                 positionId: this.state.position,
-                // avatar: this.state.avatar,
+                avatar: this.state.avatar,
             });
         }
         
@@ -174,6 +177,10 @@ class UserRedux extends Component {
     }
 
     handleEditUserFromParent = (user) => {
+        let imageBase64 = '';
+        if (user.image) {
+            imageBase64 = new Buffer(user.image, 'base64').toString('binary');
+        }
         this.setState({
             email: user.email,
             password: 'CANNOTCHANGE',
@@ -185,6 +192,7 @@ class UserRedux extends Component {
             position: user.positionId,
             role: user.roleId,
             avatar: '',
+            previewImgUrl: imageBase64,
             action: CRUD_ACTIONS.EDIT,
             userEditId: user.id,
         });
@@ -332,8 +340,8 @@ class UserRedux extends Component {
                                     <label className="label-upload" htmlFor="previewImg">Tải ảnh <i className="fas fa-upload"></i></label>
                                     <div 
                                         className="preview-image"
-                                        previewImaUrl
-                                        style={{ backgroundImage: `url(${this.state.previewImaUrl})` }}
+                                        previewImgUrl
+                                        style={{ backgroundImage: `url(${this.state.previewImgUrl})` }}
                                         onClick={() => this.openPreviewImage()}
                                         >
                                     </div>
@@ -365,7 +373,7 @@ class UserRedux extends Component {
 
                 {this.state.isOpen === true && 
                     <Lightbox
-                        mainSrc={this.state.previewImaUrl}
+                        mainSrc={this.state.previewImgUrl}
                         onCloseRequest={() => this.setState({ isOpen: false })}
                     />
                 }
