@@ -1,10 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
+import * as actions from '../../../store/actions';
+import { LANGUAGES } from '../../../utils';
 
 class OutstandingDoctor extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            arrTopDoctors: [],
+        }
+    }
+
+    componentDidMount() {
+        this.props.loadTopDocters();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (prevProps.topDoctorsRedux !== this.props.topDoctorsRedux) {
+            this.setState({
+                arrTopDoctors: this.props.topDoctorsRedux,
+            })
+        }
+    }
+
     render() {
+        let { arrTopDoctors } = this.state;
+        let { language } = this.props;
+        arrTopDoctors = arrTopDoctors.concat(arrTopDoctors).concat(arrTopDoctors);
         return (
             <div className="section-share section-outstanding-doctor">
                 <div className="section-container">
@@ -14,72 +38,31 @@ class OutstandingDoctor extends Component {
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 1</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 2</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 3</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 4</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 5</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="section-customize">
-                                <div className="customize-border">
-                                    <div className="outer-bg">
-                                        <div className="bg-image section-outstanding-doctor" />
-                                    </div>
-                                    <div className="position text-center">
-                                        <div>Giáo sư, Tiến sĩ Origin Dev 6</div>
-                                        <div>Cơ xương khớp</div>
-                                    </div>
-                                </div>
-                            </div>
+                            {arrTopDoctors && arrTopDoctors.length > 0
+                                && arrTopDoctors.map((item, index) => {
+                                    let imageBase64 = '';
+                                    if (item.image) {
+                                        imageBase64 = new Buffer(item.image, 'base64').toString('binary');
+                                    }
+                                    let nameVi = `${item.positionData.valueVi}, ${item.lastName} ${item.firstName}`;
+                                    let nameEn = `${item.positionData.valueEn}, ${item.firstName} ${item.lastName}`;
+                                    return (
+                                        <div className="section-customize" key={index}>
+                                            <div className="customize-border">
+                                                <div className="outer-bg">
+                                                    <div className="bg-image section-outstanding-doctor" 
+                                                        style={{ backgroundImage: `url(${imageBase64})` }}
+                                                    />
+                                                </div>
+                                                <div className="position text-center">
+                                                    <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
+                                                    <div>Cơ xương khớp</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </Slider>
                     </div>
                     
@@ -92,12 +75,15 @@ class OutstandingDoctor extends Component {
 
 const mapStateToProps = state => {
     return {
-        isLoggedIn: state.user.isLoggedIn
+        isLoggedIn: state.user.isLoggedIn,
+        topDoctorsRedux: state.admin.topDoctors,
+        language: state.app.language,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
+        loadTopDocters: () => dispatch(actions.fetchTopDoctor()),
     };
 };
 
