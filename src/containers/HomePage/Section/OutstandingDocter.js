@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Slider from 'react-slick';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
+import { FormattedMessage } from 'react-intl';
 
 class OutstandingDoctor extends Component {
 
@@ -28,13 +29,12 @@ class OutstandingDoctor extends Component {
     render() {
         let { arrTopDoctors } = this.state;
         let { language } = this.props;
-        arrTopDoctors = arrTopDoctors.concat(arrTopDoctors).concat(arrTopDoctors);
         return (
             <div className="section-share section-outstanding-doctor">
                 <div className="section-container">
                     <div className="section-header">
-                        <span className="title-section">Bác sĩ nổi bật trong tuần qua</span>
-                        <button className="btn-section">Tìm kiếm</button>
+                        <span className="title-section"><FormattedMessage id="homepage.outstanding-doctor" /></span>
+                        <button className="btn-section"><FormattedMessage id="homepage.more-infor" /></button>
                     </div>
                     <div className="section-body">
                         <Slider {...this.props.settings}>

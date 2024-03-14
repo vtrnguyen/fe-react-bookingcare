@@ -12,8 +12,8 @@
         "welcome": "Hi,"
     },
     "banner": {
-        "title1": "MEDICAL BACKGROUND",
-        "title2": "COMPREHENSIVE HEALTH CARE",
+        "title1": "HEALTHCARE PLATFORM",
+        "title2": "COMPLETE HEALTH SERVICES",
         "child1": "Specialized examination",
         "child2": "Remote examination",
         "child3": "General examination",
@@ -50,5 +50,9 @@
         "image": "Avatar",
         "save": "Save user",
         "edit": "Update user"
+    },
+    "homepage": {
+        "outstanding-doctor": "Outstanding doctor in the past week",
+        "more-infor": "More infor"
     }
 }
