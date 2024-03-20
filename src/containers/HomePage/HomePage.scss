@@ -61,6 +61,7 @@
                 background-repeat: no-repeat !important;
                 background-size: cover;
                 background-color: #eee;
+                cursor: pointer;
 
                 &.section-specialty {
                     background-image: url('../../assets/specialty/co-xuong-khop.jpg');
@@ -79,6 +80,17 @@
 
                 &.section-handbook {
                     background-image: url('../../assets/handbook/cam-nang-tu-van-hon-nhan-gia-dinh.jpg');
+                }
+            }
+
+            .position {
+
+                .text-doctor-name {
+                    cursor: pointer;
+
+                    &:hover {
+                        color: rgb(77, 153, 234);
+                    }
                 }
             }
         }

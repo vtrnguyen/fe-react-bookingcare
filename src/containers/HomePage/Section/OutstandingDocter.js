@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import * as actions from '../../../store/actions';
 import { LANGUAGES } from '../../../utils';
 import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router';
 
 class OutstandingDoctor extends Component {
 
@@ -24,6 +25,10 @@ class OutstandingDoctor extends Component {
                 arrTopDoctors: this.props.topDoctorsRedux,
             })
         }
+    }
+
+    handleViewDetailDoctor = (doctor) => {
+        this.props.history.push(`/detail-doctor/${doctor.id}`);
     }
 
     render() {
@@ -52,10 +57,16 @@ class OutstandingDoctor extends Component {
                                                 <div className="outer-bg">
                                                     <div className="bg-image section-outstanding-doctor" 
                                                         style={{ backgroundImage: `url(${imageBase64})` }}
+                                                        onClick={() => this.handleViewDetailDoctor(item)}
                                                     />
                                                 </div>
                                                 <div className="position text-center">
-                                                    <div>{language === LANGUAGES.VI ? nameVi : nameEn}</div>
+                                                    <div 
+                                                        className="text-doctor-name"
+                                                        onClick={() => this.handleViewDetailDoctor(item)}
+                                                        >
+                                                        {language === LANGUAGES.VI ? nameVi : nameEn}
+                                                    </div>
                                                     <div>Cơ xương khớp</div>
                                                 </div>
                                             </div>
@@ -87,4 +98,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OutstandingDoctor));
