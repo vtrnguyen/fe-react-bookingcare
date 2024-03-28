@@ -9,7 +9,7 @@
         font-weight: 600;
     }
 
-    .save-content-doctor {
+    .edit-content-doctor {
         margin-top: 20px;
         margin-bottom: 30px;
         border-radius: 3px;
@@ -17,6 +17,20 @@
         border: none;
         padding: 5px;
         background: rgb(188, 176, 233);
+
+        &:hover {
+            opacity: 0.9;
+        }
+    }
+
+    .create-content-doctor {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        border-radius: 3px;
+        outline: none;
+        border: none;
+        padding: 5px;
+        background: rgb(38, 204, 121);
 
         &:hover {
             opacity: 0.9;
