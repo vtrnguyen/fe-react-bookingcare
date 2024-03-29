@@ -1,5 +1,5 @@
 export const adminMenu = [
-    { // quan ly nguoi dung
+    { // manage user
         name: 'menu.admin.manage-user', 
         menus: [
             {
@@ -10,14 +10,13 @@ export const adminMenu = [
             },
             {
                 name: 'menu.admin.manage-doctor', link: '/system/manage-doctor'
-                // subMenus: [
-                //     { name: 'menu.system.system-administrator.user-manage', link: '/system/user-manage' },
-                //     { name: 'menu.system.system-administrator.user-redux', link: '/system/user-redux' },
-                // ]
             },
             {
                 name: 'menu.admin.manage-admin', link: '/system/user-admin'
-            }
+            },
+            { // manage doctor schedule
+                name: 'menu.doctor.update-schedule', link: '/doctor/manage-schedule'
+            },
         ]
     },
     { // quan ly phong kham
@@ -44,4 +43,15 @@ export const adminMenu = [
             },
         ]
     },
+];
+
+export const doctorMenu = [
+    { // manage doctor schedule
+        name: 'menu.doctor.manage-schedule',
+        menus: [
+            { 
+                name: 'menu.doctor.update-schedule', link: '/doctor/manage-schedule'
+            }     
+        ]
+    }
 ];
