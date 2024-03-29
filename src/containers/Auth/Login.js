@@ -40,7 +40,6 @@ class Login extends Component {
             
             if (data && data.errCode === 0) {
                 this.props.userLoginSuccess(data.user);
-                console.log('Login succeeds!');
             }
 
             if (data && data.errCode !== 0) {
@@ -66,6 +65,12 @@ class Login extends Component {
         })
     }
 
+    handleKeyDown = (e) => {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            this.handleLogin();
+        }
+    }
+
     render() {
         return (
             <div className="login-background">
@@ -80,6 +85,7 @@ class Login extends Component {
                                 placeholder="Enter your username"
                                 value={this.state.username}
                                 onChange={(e) => this.handleChangeUsername(e)}
+                                onKeyDown={(e) => this.handleKeyDown(e)}
                             />
                         </div>
                         <div className="col-12 form-group login-input">
@@ -91,6 +97,7 @@ class Login extends Component {
                                     placeholder="Enter your password"
                                     value={this.state.password}
                                     onChange={(e) => this.handleChangePassword(e)}
+                                    onKeyDown={(e) => this.handleKeyDown(e)}
                                 />
                                 <span
                                     onClick={() => {this.handleShowHidePassword()}}
