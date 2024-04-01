@@ -4,9 +4,11 @@ import './ManageSchedule.scss';
 import { FormattedMessage } from 'react-intl';
 import Select from 'react-select';
 import * as actions from "../../../store/actions";
-import { CRUD_ACTIONS, LANGUAGES } from "../../../utils";
+import { CRUD_ACTIONS, LANGUAGES, dateFormat } from "../../../utils";
 import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
+import { toast } from 'react-toastify';
+import _ from 'lodash';
 
 class ManageSchedule extends Component {
 
@@ -34,8 +36,16 @@ class ManageSchedule extends Component {
         }
 
         if (prevProps.allScheduleTime !== this.props.allScheduleTime) {
+            let data = this.props.allScheduleTime;
+            
+            if (data && data.length > 0) {
+                data.map((item, index) => {
+                    item.isSelected = false;
+                });
+            }
+
             this.setState({
-                rangeTime: this.props.allScheduleTime,
+                rangeTime: data,
             });
         }
 
@@ -78,6 +88,57 @@ class ManageSchedule extends Component {
             bookingDate: date[0],
         });
     }
+
+    handleClickScheduleBtn = (scheduleTime) => {
+        let { rangeTime } = this.state;
+
+        if (rangeTime && rangeTime.length > 0) {
+            rangeTime.map((item, index) => {
+                if (item.id === scheduleTime.id) {
+                    item.isSelected = !item.isSelected;
+                }
+            })
+        }
+
+        this.setState({
+            rangeTime
+        })
+    }
+
+    handleSaveDoctorSchedule = () => {
+        let { rangeTime, selectedDoctor, bookingDate } = this.state;
+        let formtedDate = moment(bookingDate).format(dateFormat.SEND_TO_SERVER);
+        let result = [];
+
+        if (!bookingDate) {
+            toast.error('Invalid date!!!');
+            return;
+        }
+
+        if (selectedDoctor && _.isEmpty(selectedDoctor)) {
+            toast.error('No doctor has been selected!!!');
+            return;
+        }
+
+        if (rangeTime && rangeTime.length > 0) {
+            let selectedTime = rangeTime.filter((item, index) => {
+                return item.isSelected === true;
+            });
+
+            if (selectedTime && selectedTime.length > 0) {
+                selectedTime.map((item, index) => {
+                    let scheduleObject = {};
+                    scheduleObject.doctorId = selectedDoctor.value;
+                    scheduleObject.bookingDate = formtedDate;
+                    scheduleObject.bookingTime = item.keyMap;
+
+                    result.push(scheduleObject);
+                });
+            } else {
+                toast.error('No time has been selected!!!');
+            }
+        }
+    }
     
     render() {
         let { rangeTime } = this.state;
@@ -115,8 +176,9 @@ class ManageSchedule extends Component {
                                 rangeTime.map((item, index) => {
                                     return (
                                         <button 
-                                            className="btn schedule-time" 
+                                            className={item.isSelected === true ? "btn schedule-time active" : "btn schedule-time"}
                                             key={index}
+                                            onClick={() => this.handleClickScheduleBtn(item)}
                                         >
                                             {language === LANGUAGES.VI ? item.valueVi : item.valueEn}
                                         </button>
@@ -126,7 +188,12 @@ class ManageSchedule extends Component {
                         </div>
 
                         <div className="col-12">
-                            <button className="btn btn-primary btn-save-schedule"><FormattedMessage id="manage-schedule.save-schedule" /></button>
+                            <button 
+                                className="btn btn-primary btn-save-schedule"
+                                onClick={() => this.handleSaveDoctorSchedule()}
+                            >
+                                <FormattedMessage id="manage-schedule.save-schedule" />
+                            </button>
                         </div>
 
                     </div>
