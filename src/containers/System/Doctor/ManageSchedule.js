@@ -9,6 +9,7 @@ import DatePicker from '../../../components/Input/DatePicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import _ from 'lodash';
+import { saveBulkScheduleDoctor } from '../../../services/userService';
 
 class ManageSchedule extends Component {
 
@@ -48,13 +49,6 @@ class ManageSchedule extends Component {
                 rangeTime: data,
             });
         }
-
-        // if (prevProps.language !== this.props.language) {
-        //     let dataSelect = this.buildDataInputSelect(this.props.allDoctors);
-        //     this.setState({
-        //         listDoctors: dataSelect,
-        //     })
-        // }
     }
 
     buildDataInputSelect = (inputData) => {
@@ -105,34 +99,46 @@ class ManageSchedule extends Component {
         })
     }
 
-    handleSaveDoctorSchedule = () => {
+    handleSaveDoctorSchedule = async () => {
         let { rangeTime, selectedDoctor, bookingDate } = this.state;
-        let formtedDate = moment(bookingDate).format(dateFormat.SEND_TO_SERVER);
+        let formatedDate = new Date(bookingDate).getTime();
         let result = [];
 
+        // check existing of booking date
         if (!bookingDate) {
             toast.error('Invalid date!!!');
             return;
         }
 
+        // check doctor want to create schedule
         if (selectedDoctor && _.isEmpty(selectedDoctor)) {
             toast.error('No doctor has been selected!!!');
             return;
         }
 
         if (rangeTime && rangeTime.length > 0) {
+            // check selected time, if it is selected, change the attribute isSlected to true
             let selectedTime = rangeTime.filter((item, index) => {
                 return item.isSelected === true;
             });
 
             if (selectedTime && selectedTime.length > 0) {
+                // add the data to each element
                 selectedTime.map((item, index) => {
                     let scheduleObject = {};
                     scheduleObject.doctorId = selectedDoctor.value;
-                    scheduleObject.bookingDate = formtedDate;
-                    scheduleObject.bookingTime = item.keyMap;
+                    scheduleObject.date = formatedDate;
+                    scheduleObject.timeType = item.keyMap;
 
+                    // push each element into the result array
                     result.push(scheduleObject);
+                });
+
+                // send the data want to create to the server
+                let response = await saveBulkScheduleDoctor({
+                    arrSchedule: result,
+                    doctorId: selectedDoctor.value,
+                    formatedDate: formatedDate
                 });
             } else {
                 toast.error('No time has been selected!!!');
