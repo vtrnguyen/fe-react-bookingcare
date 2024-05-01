@@ -13,6 +13,7 @@ class DoctorSchedule extends Component {
         this.state = {
             language: '',
             allDays: [],
+            allAvailableTime: [],
         }
     }
 
@@ -49,21 +50,28 @@ class DoctorSchedule extends Component {
         }
     }
 
-    handleOnchaneSelect = async (e) => {
+    handleOnChangeSelect = async (e) => {
         if (this.props.doctorIdFromParent && this.props.doctorIdFromParent !== -1) {
             let doctorId = this.props.doctorIdFromParent;
             let date = e.target.value;
             let res = await getScheduleDoctorByDate(doctorId, date);
+
+            if (res && res.errCode === 0) {
+                this.setState({
+                    allAvailableTime: res.data ? res.data : [],
+                });
+            }
         }
     }
 
     render() {
-        let { allDays } = this.state;
+        let { allDays, allAvailableTime } = this.state;
+        let { language } = this.props;
 
         return (
             <div className="doctor-schedule-container">
                 <div className="all-schedule">
-                    <select onChange={(e) => this.handleOnchaneSelect(e)}>
+                    <select onChange={(e) => this.handleOnChangeSelect(e)}>
                         {allDays && allDays.length > 0 &&
                             allDays.map((item, index) => {
                                 return (
@@ -78,8 +86,24 @@ class DoctorSchedule extends Component {
                         }
                     </select>
                 </div>
-                <div className="all-availble-time">
-
+                <div className="all-available-time">
+                    <div className="text-calendar">
+                    <i className="fas fa-calendar-alt"><span>Lịch khám</span></i>
+                    </div>
+                    <div className="time-content">
+                        {allAvailableTime && allAvailableTime.length > 0 
+                            ?
+                                allAvailableTime.map((item, index) => {
+                                    let timeDisplay = language === LANGUAGES.VI ? 
+                                    item.timeTypeData.valueVi : item.timeTypeData.valueEn;
+                                    return (
+                                        <button key={index}>{timeDisplay}</button>
+                                    );
+                                })
+                            :
+                            <div>Bác sĩ không có lịch hẹn trong khoảng thời gian này!</div>
+                        }
+                    </div>
                 </div>
             </div>
         );

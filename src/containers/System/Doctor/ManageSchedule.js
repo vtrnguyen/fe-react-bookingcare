@@ -138,8 +138,9 @@ class ManageSchedule extends Component {
                 let response = await saveBulkScheduleDoctor({
                     arrSchedule: result,
                     doctorId: selectedDoctor.value,
-                    formatedDate: formatedDate
+                    formatedDate: formatedDate,
                 });
+
             } else {
                 toast.error('No time has been selected!!!');
             }
