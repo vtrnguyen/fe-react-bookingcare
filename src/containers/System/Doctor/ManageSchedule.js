@@ -141,6 +141,11 @@ class ManageSchedule extends Component {
                     formatedDate: formatedDate,
                 });
 
+                if (response && response.errCode === 0) {
+                    toast.success('Scheduling is successful');
+                } else {
+                    toast.warn('Scheduling is not successful!!!');
+                }
             } else {
                 toast.error('No time has been selected!!!');
             }
@@ -150,6 +155,7 @@ class ManageSchedule extends Component {
     render() {
         let { rangeTime } = this.state;
         let language = this.props.language;
+        let yesterday = new Date(new Date().setDate(new Date().getDate() - 1));
 
         return (
             <div className="manage-schedule-container">
@@ -174,7 +180,7 @@ class ManageSchedule extends Component {
                                 onChange={this.handleOnChangeDatePicker}
                                 className="form-control"
                                 value={this.state.bookingDate}
-                                minDate={new Date()}
+                                minDate={yesterday}
                             />
                         </div>
 

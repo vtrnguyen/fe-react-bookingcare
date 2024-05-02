@@ -12,12 +12,18 @@ class DetailDoctor extends Component {
         super(props);
         this.state = {
             detailDoctor: {},
+            currentDoctorId: -1,
         }
     }
 
     async componentDidMount() {
         if (this.props.match && this.props.match.params && this.props.match.params.id) {
-            let doctorId = this.props.match.params.id;          
+            let doctorId = this.props.match.params.id;
+            
+            this.setState({
+                currentDoctorId: doctorId,
+            });
+            
             let res = await getDetailInforDoctor(doctorId);
             if (res && res.errCode === 0) {
                 this.setState({
@@ -32,7 +38,7 @@ class DetailDoctor extends Component {
     }
 
     render() {
-        let { detailDoctor } = this.state;
+        let { detailDoctor, currentDoctorId } = this.state;
         let { language } = this.props;
         let nameVi = '', nameEn = '';
 
@@ -52,7 +58,6 @@ class DetailDoctor extends Component {
                         <div 
                             className="content-left" 
                             style={{ backgroundImage: `url(${detailDoctor && detailDoctor.image ? detailDoctor.image : ''})` }}>
-
                         </div>
 
                         <div className="content-right">
@@ -73,7 +78,7 @@ class DetailDoctor extends Component {
                     <div className="schedule-doctor">
                         <div className="content-left">
                             <DoctorSchedule 
-                                doctorIdFromParent={detailDoctor && detailDoctor.id ? detailDoctor.id : -1}
+                                doctorIdFromParent={currentDoctorId}
                             />
                         </div>
 

@@ -7,7 +7,9 @@
 
         .content-left {
             width: 20%;
-            background: center center no-repeat;
+            background-position: center center;
+            background-repeat: no-repeat !important;
+            background-size: cover;
             width: 120px;
             height: 120px;
             border-radius: 50%;
@@ -35,7 +37,9 @@
     .schedule-doctor {
         margin: 0 100px;
         display: flex;
-        height: 200px;
+        padding-top: 10px;
+        padding-bottom: 20px;
+        min-height: 200px;
 
         .content-left {
             width: 50%;
