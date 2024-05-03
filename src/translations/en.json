@@ -79,7 +79,17 @@
             "select-doctor": "Choose doctor",
             "introduction": "Introduction",
             "save-infor": "Save infor",
-            "create-infor": "Create infor"
+            "create-infor": "Create infor",
+            "price": "Price",
+            "payment": "Payment",
+            "province": "Province",
+            "doctorPlaceholder": "Choose doctor",
+            "pricePlaceholder": "Choose price",
+            "paymentPlaceholder": "Choose payment",
+            "provincePlaceholder": "Choose province",
+            "clinicName": "Clinic's name",
+            "clinicAddress": "Clinic's address",
+            "note": "Note"
         }
     }
 }
