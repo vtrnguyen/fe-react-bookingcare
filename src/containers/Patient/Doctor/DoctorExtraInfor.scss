@@ -25,8 +25,12 @@
     .content-down {
 
         .short-infor {
+
+            .currency {
+                margin-left: 5px;
+            }
             
-            span {
+            .detail-click {
                 margin-left: 5px;
                 cursor: pointer;
                 color: #3791e0;
@@ -49,18 +53,18 @@
             .price {
                 margin-bottom: 5px;
 
-                .left {
+                // .left {
 
-                }
+                // }
 
                 .right {
                     float: right;
                 }
             }
 
-            .note {
+            // .note {
 
-            }
+            // }
         }
 
         .payment {
