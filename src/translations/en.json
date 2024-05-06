@@ -78,7 +78,22 @@
             "payment": "You can pay in the following ways",
             "show": "Show detail",
             "hide": "Hide price list"
-         }
+        },
+        "booking-modal": {
+            "title": "Booking appointment schedule",
+            "full-name": "Fullname",
+            "phone-number": "Phone number",
+            "email": "Email",
+            "address": "Address",
+            "reason": "Reason",
+            "birthday": "Birthday",
+            "gender": "Gender",
+            "confirm-button": "Confirm",
+            "cancel-button": "Cancel",
+            "booking-price": "Booking is free.",
+            "clinic-infor": "Cilic's information:",
+            "price-title": "Price:"
+        }
     },
     "admin": {
         "manage-doctor": {

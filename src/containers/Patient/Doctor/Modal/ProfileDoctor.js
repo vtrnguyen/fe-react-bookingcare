@@ -58,7 +58,7 @@ class ProfileDoctor extends Component {
             return (
                 <>
                     <div className="display-time">{time} - {date}</div>
-                    <div>Miễn phí đặt lịch.</div>
+                    <div><FormattedMessage id="patient.booking-modal.booking-price" /></div>
                 </>
             )
         } else {
@@ -109,14 +109,14 @@ class ProfileDoctor extends Component {
                     </div>
                 </div>
                 <div className="clinic-infor">
-                    <b className="clinic-infor-text">Thông tin phòng khám:</b>&nbsp;
+                    <b className="clinic-infor-text"><FormattedMessage id="patient.booking-modal.clinic-infor" /></b>:&nbsp;
                     {dataProfile && dataProfile.Doctor_Infor && dataProfile.Doctor_Infor.nameClinic 
                         && dataProfile.Doctor_Infor.addressClinic &&
                         <span>{dataProfile.Doctor_Infor.nameClinic} - {dataProfile.Doctor_Infor.addressClinic}</span>
                     }
                 </div>
                 <div className="price">
-                    <b className="price-text">Giá khám</b>:&nbsp;
+                    <b className="price-text"><FormattedMessage id="patient.booking-modal.price-title" /></b>:&nbsp;
                     {dataProfile && dataProfile.Doctor_Infor && language === LANGUAGES.VI 
                         ? 
                             <NumberFormat
