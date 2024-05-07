@@ -123,38 +123,37 @@ class BookingModal extends Component {
     }
 
     handleConfirmBooking = async () => {
-        // !inputData.email || !inputData.doctorId || !inputData.timeType || !inputData.date
         if (!this.state.fullName || !this.state.phoneNumber 
             || !this.state.reason || !this.state.address
             || !this.state.selectedGender || !this.state.email || !this.state.birthDay) {
             toast.error("Missing input parameter!!!");
-        }
-
-        let isValidEmail = this.checkEmailFormat(this.state.email);
-        let isValidPhoneNumber = this.checkPhoneNumberFormat(this.state.phoneNumber);
-
-        if (!isValidEmail || !isValidPhoneNumber) return;
-        
-        let date = new Date(this.state.birthDay).getTime();
-        let res = await postPatientBookAppointment({
-            fullName: this.state.fullName,
-            phoneNumber: this.state.phoneNumber,
-            email: this.state.email,
-            address: this.state.address,
-            reason: this.state.reason,
-            date: date,
-            selectedGender: this.state.selectedGender.value,
-            doctorId: this.state.doctorId,
-            timeType: this.state.timeType,
-        });
-
-        if (res && res.errCode === 0 && res.errSubCode === 1) {
-            toast.success(`${res.errMessage}`);
-            this.props.handleCloseModal();
-        } else if (res && res.errCode === 0 && res.errSubCode === 0) {
-            toast.success(`${res.errMessage}`);
         } else {
-            toast.errCode("Booking a new appointment is not successfully!!!");
+            let isValidEmail = this.checkEmailFormat(this.state.email);
+            let isValidPhoneNumber = this.checkPhoneNumberFormat(this.state.phoneNumber);
+    
+            if (!isValidEmail || !isValidPhoneNumber) return;
+
+            let date = new Date(this.state.birthDay).getTime();
+            let res = await postPatientBookAppointment({
+                fullName: this.state.fullName,
+                phoneNumber: this.state.phoneNumber,
+                email: this.state.email,
+                address: this.state.address,
+                reason: this.state.reason,
+                date: date,
+                selectedGender: this.state.selectedGender.value,
+                doctorId: this.state.doctorId,
+                timeType: this.state.timeType,
+            });
+    
+            if (res && res.errCode === 0 && res.errSubCode === 1) {
+                toast.success(`${res.errMessage}`);
+                this.props.handleCloseModal();
+            } else if (res && res.errCode === 0 && res.errSubCode === 0) {
+                toast.success(`${res.errMessage}`);
+            } else {
+                toast.errCode("Booking a new appointment is not successfully!!!");
+            }
         }
     }
 
