@@ -93,6 +93,11 @@
             "booking-price": "Miễn phí đặt lịch.",
             "clinic-infor": "Thông tin phòng khám:",
             "price-title": "Giá khám:"
+        },
+        "verify-email-booking": {
+            "loading-data": "Đang tải dữ liệu",
+            "infor-booking-success": "Xác nhận lịch hẹn thành công",
+            "infor-booking-failed": "Lịch hẹn không tồn tại hoặc đã được xác nhận"
         }
     },
     "admin": {

@@ -93,6 +93,11 @@
             "booking-price": "Booking is free.",
             "clinic-infor": "Cilic's information:",
             "price-title": "Price:"
+        },
+        "verify-email-booking": {
+            "loading-data": "Loading data",
+            "infor-booking-success": "Confirming booking schedule succeed",
+            "infor-booking-failed": "Booking schedule does not exist or has been confirmed"
         }
     },
     "admin": {
