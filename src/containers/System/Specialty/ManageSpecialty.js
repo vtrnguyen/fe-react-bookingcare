@@ -59,7 +59,7 @@ class ManageSpecialty extends Component {
 
     handleSaveNewSpecialty = async () => {
         let { specialtyName, imageBase64, descriptionHTML, descriptionMarkDown } = this.state;
-        
+
         if (!specialtyName || !descriptionHTML || !descriptionHTML) {
             toast.error('Missing input parameter!!!');
             return;
@@ -73,6 +73,12 @@ class ManageSpecialty extends Component {
         });
 
         if (res && res.errCode === 0) {
+            this.setState({
+                specialtyName: '',
+                imageBase64: '',
+                descriptionHTML: '',
+                descriptionMarkDown: '',
+            });
             toast.success('Add new specialty success!');
         } else {
             toast.error('Add new specialty does not success!!!');

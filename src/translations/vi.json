@@ -57,7 +57,8 @@
     },
     "homepage": {
         "outstanding-doctor": "Bác sĩ nổi bật trong tuần qua",
-        "more-infor": "Xem thêm"
+        "more-infor": "Xem thêm",
+        "popular-speciality": "Chuyên khoa phổ biến"
     },
     "manage-schedule": {
         "title": "Quản lý lịch khám bệnh của bác sĩ",
