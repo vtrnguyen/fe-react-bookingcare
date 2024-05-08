@@ -188,6 +188,15 @@ class BookingModal extends Component {
             if (res && res.errCode === 0 && res.errSubCode === 1) {
                 toast.success(`${res.errMessage}`);
                 this.props.handleCloseModal();
+                this.setState({
+                    fullName: '',
+                    phoneNumber: '',
+                    email: '',
+                    address: '',
+                    reason: '',
+                    birthDay: '',
+                    selectedGender: '',
+                });
             } else if (res && res.errCode === 0 && res.errSubCode === 0) {
                 toast.success(`${res.errMessage}`);
             } else {
