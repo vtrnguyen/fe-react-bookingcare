@@ -119,5 +119,12 @@
             "clinicAddress": "Clinic's address",
             "note": "Note"
         }
+    },
+    "manage-specialty": {
+        "title": "Manage specialties",
+        "label-vi-name-input": "Vietnamese name",
+        "label-en-name-input": "English name",
+        "label-image-input": "Specialty image",
+        "btn-save": "Save"
     }
 }

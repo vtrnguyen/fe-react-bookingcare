@@ -15,7 +15,8 @@ class ManageSpecialty extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            specialtyName: '',
+            specialtyNameVi: '',
+            specialtyNameEn: '',
             imageBase64: '',
             descriptionHTML: '',
             descriptionMarkDown: '',
@@ -58,15 +59,15 @@ class ManageSpecialty extends Component {
     }
 
     handleSaveNewSpecialty = async () => {
-        let { specialtyName, imageBase64, descriptionHTML, descriptionMarkDown } = this.state;
-
-        if (!specialtyName || !descriptionHTML || !descriptionHTML) {
+        let { specialtyNameVi, specialtyNameEn, imageBase64, descriptionHTML, descriptionMarkDown } = this.state;
+        if (!specialtyNameVi || !specialtyNameEn || !descriptionHTML || !descriptionHTML) {
             toast.error('Missing input parameter!!!');
             return;
         }
 
         let res = await createNewSpecialty({
-            specialtyName,
+            specialtyNameVi,
+            specialtyNameEn,
             imageBase64,
             descriptionHTML,
             descriptionMarkDown,
@@ -74,7 +75,8 @@ class ManageSpecialty extends Component {
 
         if (res && res.errCode === 0) {
             this.setState({
-                specialtyName: '',
+                specialtyNameVi: '',
+                specialtyNameEn: '',
                 imageBase64: '',
                 descriptionHTML: '',
                 descriptionMarkDown: '',
@@ -86,23 +88,31 @@ class ManageSpecialty extends Component {
     }
 
     render() {
-
         return (
             <div className="manage-specialty-container">
-                <div className="manage-specialty-title">Quản lý chuyên khoa</div>
+                <div className="manage-specialty-title"><FormattedMessage id="manage-specialty.title" /></div>
                 
                 <div className="add-new-specialty row">
                     <div className="col-6 form-group">
-                        <label>Tên chuyên khoa</label>
+                        <label><FormattedMessage id="manage-specialty.label-vi-name-input" /></label>
                         <input 
                             className="form-control" 
                             type="text"
-                            value={this.state.specialtyName}
-                            onChange={(e) => this.handleOnChangeInput(e, 'specialtyName')}
+                            value={this.state.specialtyNameVi}
+                            onChange={(e) => this.handleOnChangeInput(e, 'specialtyNameVi')}
                         />
                     </div>
                     <div className="col-6 form-group">
-                        <label>Ảnh chuyên khoa</label>
+                        <label><FormattedMessage id="manage-specialty.label-en-name-input" /></label>
+                        <input 
+                            className="form-control" 
+                            type="text"
+                            value={this.state.specialtyNameEn}
+                            onChange={(e) => this.handleOnChangeInput(e, 'specialtyNameEn')}
+                        />
+                    </div>
+                    <div className="col-12 form-group">
+                        <label><FormattedMessage id="manage-specialty.label-image-input" /></label>
                         <input 
                             className="form-control-file" 
                             type="file"
@@ -121,7 +131,7 @@ class ManageSpecialty extends Component {
                         <button 
                             className="btn-save-new-specialty"
                             onClick={() => this.handleSaveNewSpecialty()}
-                            >Lưu
+                            ><FormattedMessage id="manage-specialty.btn-save" />
                         </button>
                     </div>
                 </div>

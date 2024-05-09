@@ -119,5 +119,12 @@
             "clinicAddress": "Địa chỉ phòng khám",
             "note": "Ghi chú"
         }
+    },
+    "manage-specialty": {
+        "title": "Quản lý chuyên khoa",
+        "label-vi-name-input": "Tên chuyên khoa tiếng Việt",
+        "label-en-name-input": "Tên chuyên khoa tiếng Anh",
+        "label-image-input": "Ảnh chuyên khoa",
+        "btn-save": "Lưu"
     }
 }
