@@ -1,7 +1,7 @@
 // reset slick slider css
 .slick-prev {
     left: -10px !important;
-    z-index: 1000;
+    z-index: 50;
     height: 48px !important;
     width: 44px !important;
     background: #fff !important;
@@ -21,7 +21,7 @@
 
 .slick-next {
     right: -10px !important;
-    z-index: 1000;
+    z-index: 50;
     height: 48px !important;
     width: 44px !important;
     background: #fff !important;
