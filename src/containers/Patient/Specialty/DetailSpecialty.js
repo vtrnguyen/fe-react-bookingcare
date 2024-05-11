@@ -18,6 +18,9 @@ class DetailSpecialty extends Component {
             arrDoctorId: [],
             dataDetailSpecialty: {},
             listProvince: [],
+            showFullDescription: false,
+            buttonShow: '', 
+            buttonHide: '', 
         }
     }
 
@@ -44,10 +47,25 @@ class DetailSpecialty extends Component {
                         });
                     }
                 }
+
+                let dataProvince = resProvince.data;
+
+                if (dataProvince && dataProvince.length > 0) {
+                    dataProvince.unshift({
+                        createAt: null,
+                        keyMap: 'all',
+                        type: 'PROVINCE',
+                        valueVi: 'Toàn quốc',
+                        valueEn: 'All',
+                    });
+                }
+
                 this.setState({
                     dataDetailSpecialty: resDetailSpecialty.data,
                     arrDoctorId: listSpecialtyDoctorId,
-                    listProvince: resProvince.data,
+                    listProvince: dataProvince ? dataProvince : [],
+                    buttonShow: this.props.language === LANGUAGES.VI ? "Xem thêm" : "More",
+                    buttonHide: this.props.language === LANGUAGES.VI ? "Ẩn bớt" : "Hide",
                 });
             }
         }
@@ -55,18 +73,58 @@ class DetailSpecialty extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
         if (this.props.language !== prevProps.language) {
-            
+            this.setState({
+                buttonShow: this.props.language === LANGUAGES.VI ? "Xem thêm" : "More",
+                buttonHide: this.props.language === LANGUAGES.VI ? "Ẩn bớt" : "Hide",
+            });
         }
     }
 
-    handleOnChangeSelectProvince = (event) => {
-        console.log(">>> Check select onChange: ", event.target.value);
+    handleOnChangeSelectProvince = async (event) => {
+        if (this.props.match && this.props.match.params && this.props.match.params.id) {
+            let specialtyId = this.props.match.params.id;
+            let location = event.target.value;  
+        
+            let resDetailSpecialty = await getDetailSpecialtyById({
+                id: specialtyId,
+                location: location,
+            });
+
+            if (resDetailSpecialty && resDetailSpecialty.errCode === 0) {
+                let listSpecialtyDoctorId = [];
+                if (resDetailSpecialty.data && !_.isEmpty(resDetailSpecialty.data)) {
+                    let arr = resDetailSpecialty.data.specialtyDoctor;
+                    if (arr && arr.length > 0) {
+                        arr.map(item => {
+                            listSpecialtyDoctorId.push(item.doctorId);
+                        });
+                    }
+                }
+
+                this.setState({
+                    dataDetailSpecialty: resDetailSpecialty.data,
+                    arrDoctorId: listSpecialtyDoctorId,
+                    buttonShow: this.props.language === LANGUAGES.VI ? "Xem thêm" : "More",
+                    buttonHide: this.props.language === LANGUAGES.VI ? "Ẩn bớt" : "Hide",
+                });
+            }
+        }
+    }
+
+    handleClickShowDescription = () => {
+        this.setState({
+            showFullDescription: !this.state.showFullDescription,
+        });
     }
 
     render() {
-        let { arrDoctorId, dataDetailSpecialty, listProvince } = this.state;
+        let { arrDoctorId, dataDetailSpecialty, 
+            listProvince, showFullDescription,
+            buttonShow, buttonHide } = this.state;
         let { language } = this.props;
-        
+
+        console.log(">>> Check state: ", this.state);
+
         return (
             <div className="detail-specialty-container">
                 <HomeHeader />
@@ -74,8 +132,16 @@ class DetailSpecialty extends Component {
                     <div className="description-specialty">
                         {dataDetailSpecialty && !_.isEmpty(dataDetailSpecialty)
                         &&
-                            <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTML }}>
-
+                            <div>
+                                <div style={{ maxHeight: showFullDescription ? 'none' : '200px', overflow: 'hidden' }}>
+                                    <div dangerouslySetInnerHTML={{ __html: dataDetailSpecialty.descriptionHTML }}></div>
+                                </div>
+                                <div
+                                    className="btn-show-hide"
+                                    onClick={() => this.handleClickShowDescription()}
+                                >
+                                    {showFullDescription ? buttonHide : buttonShow}
+                                </div>
                             </div>
                         }
                     </div>
@@ -107,6 +173,8 @@ class DetailSpecialty extends Component {
                                             <ProfileDoctor 
                                                 doctorId={item}
                                                 isShowDescriptionDoctor={true}
+                                                isShowLinkDetailDoctor={true}
+                                                isShowPrice={false}
                                             />
                                         </div>
                                     </div>

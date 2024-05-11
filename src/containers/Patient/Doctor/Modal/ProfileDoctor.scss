@@ -51,6 +51,17 @@
         }
     }
 
+    .view-detail-doctor {
+
+        .redirect-link-detail-doctor {
+            color: black;
+
+            &:hover {
+                text-decoration: underlines;
+            }
+        }
+    }
+
     .price {
         margin-bottom: 10px;
 

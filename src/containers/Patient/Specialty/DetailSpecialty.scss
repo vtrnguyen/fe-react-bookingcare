@@ -1,14 +1,43 @@
 .detail-specialty-container {
 
     .detail-specialty-body {
-        margin: 0 100px;
-
+        display: flex;
+        flex-direction: column;
+        padding: 0 100px;
+        background: #eeeeee;
+        
         .description-specialty {
-            border: 1px solid red;
+            background-color: #fff !important;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px #20212447;
+            padding-left: 15px;
+
+            h1, h2, h3 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .btn-show-hide {
+                color: #28a7e7;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
 
         .search-doctor-by-province {
             
+            select {
+                height: 30px;
+                padding: 5px 8px;
+                outline: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
         }
     
         .doctor-infor {
@@ -24,6 +53,13 @@
             .dt-content-left {
                 width: 50%;
                 border-right: 1px solid #ccc;
+
+                .profile-doctor-container {
+
+                    .down {
+                        padding: 5px;
+                    }
+                }
             }
     
             .dt-content-right {

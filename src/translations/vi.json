@@ -71,7 +71,8 @@
             "schedule": "Lịch khám",
             "no-schedule": "Bác sĩ không có lịch hẹn trong khoảng thời gian này!",
             "choose": "Chọn",
-            "book": "và đặt lịch (miễn phí)."
+            "book": "và đặt lịch (miễn phí).",
+            "show-link": "Xem thêm"
         },
         "extra-infor-doctor": {
             "text-address": "Địa chỉ khám",

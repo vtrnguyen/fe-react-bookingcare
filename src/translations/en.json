@@ -71,7 +71,8 @@
             "schedule": "Schedule",
             "no-schedule": "The doctor does not have any appointments available during this time!",
             "choose": "Choose",
-            "book": "and book (free)."
+            "book": "and book (free).",
+            "show-link": "Show more"
         },
         "extra-infor-doctor": {
             "text-address": "Clinic's address",
