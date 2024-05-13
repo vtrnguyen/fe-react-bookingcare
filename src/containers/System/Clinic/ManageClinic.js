@@ -81,20 +81,24 @@ class ManageClinic extends Component {
                 descriptionHTML: '',
                 descriptionMarkDown: '',
             });
-            toast.success('Add new clicnic success!');
+            toast.success('Add new clinic success!');
         } else {
-            toast.error('Add new clicnic does not success!!!');
+            toast.error('Add new clinic does not success!!!');
         }
     }
 
     render() {
         return (
-            <div className="manage-clicnic-container">
-                <div className="manage-clicnic-title">Quản lý phòng khám</div>
+            <div className="manage-clinic-container">
+                <div className="manage-clinic-title">
+                    <FormattedMessage id="manage-clinic.title"/>
+                </div>
                 
-                <div className="add-new-clicnic row">
+                <div className="add-new-clinic row">
                     <div className="col-6 form-group">
-                        <label>Tên phòng khám</label>
+                        <label>
+                            <FormattedMessage id="manage-clinic.label-name-input"/>
+                        </label>
                         <input 
                             className="form-control" 
                             type="text"
@@ -103,7 +107,9 @@ class ManageClinic extends Component {
                         />
                     </div>
                     <div className="col-6 form-group">
-                        <label>Ảnh phòng khám</label>
+                        <label>
+                            <FormattedMessage id="manage-clinic.label-image-input"/>
+                        </label>
                         <input 
                             className="form-control-file" 
                             type="file"
@@ -112,7 +118,9 @@ class ManageClinic extends Component {
                     </div>
                     
                     <div className="col-6 form-group">
-                        <label>Địa chỉ phòng khám</label>
+                        <label>
+                            <FormattedMessage id="manage-clinic.label-address-input"/>
+                        </label>
                         <input 
                             className="form-control" 
                             type="text"
@@ -131,10 +139,10 @@ class ManageClinic extends Component {
                     </div>
                     <div className="col-12">
                         <button 
-                            className="btn-save-new-clicnic"
+                            className="btn-save-new-clinic"
                             onClick={() => this.handleSaveNewClinic()}
                         >
-                            Lưu
+                            <FormattedMessage id="manage-clinic.btn-save"/>
                         </button>
                     </div>
                 </div>

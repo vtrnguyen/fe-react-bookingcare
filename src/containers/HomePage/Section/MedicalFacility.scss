@@ -1,0 +1,19 @@
+.clinic {
+
+    .section-medical-facility {
+        width: 300px !important;
+        height: 160px !important;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .clinic-name {
+        cursor: pointer;
+        
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}

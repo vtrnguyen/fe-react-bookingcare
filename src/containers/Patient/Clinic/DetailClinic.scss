@@ -1,0 +1,96 @@
+.detail-specialty-container {
+
+    .detail-specialty-body {
+        display: flex;
+        flex-direction: column;
+        padding: 0 100px;
+        background: #eeeeee;
+
+        .clinic-name {
+            flex: 1 1 0%;
+            font-size: 26px;
+            color: rgb(40, 49, 63);
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+        
+        .description-specialty {
+            background-color: #fff !important;
+            padding: 10px;
+            margin: 15px 0;
+            border-radius: 10px;
+            box-shadow: 0 1px 6px #20212447;
+            padding-left: 15px;
+
+            h1, h2, h3 {
+                font-size: 16px;
+                font-weight: 600;
+            }
+
+            .btn-show-hide {
+                color: #28a7e7;
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .search-doctor-by-province {
+            
+            select {
+                height: 30px;
+                padding: 5px 8px;
+                outline: none;
+                border-radius: 3px;
+                cursor: pointer;
+            }
+        }
+    
+        .doctor-infor {
+            padding: 10px;
+            display: flex;
+            width: 100%;
+            min-height: 300px;
+            margin: 15px 0;
+            background-color: #fff;
+            box-shadow: 0 1px 6px #20212447;
+            border-radius: 8px;
+        
+            .dt-content-left {
+                width: 50%;
+                border-right: 1px solid #ccc;
+
+                .profile-doctor-container {
+
+                    .down {
+                        padding: 5px;
+                    }
+                }
+            }
+    
+            .dt-content-right {
+                width: 50%;
+                padding: 10px 15px;
+    
+                .doctor-schedule {
+
+                    .doctor-schedule-container {
+                        border-right: unset !important;
+                    }
+                }
+    
+                .doctor-extra-infor {
+                    padding-top: 10px;
+                    border-top: 1px solid #ccc;
+    
+                    .doctor-extra-infor-container {
+                        padding-left: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+
+}

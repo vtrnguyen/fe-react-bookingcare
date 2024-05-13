@@ -131,5 +131,12 @@
         "label-en-name-input": "Tên chuyên khoa tiếng Anh",
         "label-image-input": "Ảnh chuyên khoa",
         "btn-save": "Lưu"
+    },
+    "manage-clinic": {
+        "title": "Quản lý cơ sở y tế",
+        "label-name-input": "Tên cơ sở y tế",
+        "label-address-input": "Địa chỉ",
+        "label-image-input": "Ảnh cơ sở y tế",
+        "btn-save": "Lưu"
     }
 }

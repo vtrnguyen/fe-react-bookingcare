@@ -131,5 +131,12 @@
         "label-en-name-input": "English name",
         "label-image-input": "Specialty image",
         "btn-save": "Save"
+    },
+    "manage-clinic": {
+        "title": "Manage clinic",
+        "label-name-input": "Name",
+        "label-address-input": "Address",
+        "label-image-input": "CLinic image",
+        "btn-save": "Save"
     }
 }
