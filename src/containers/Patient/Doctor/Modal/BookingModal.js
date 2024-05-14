@@ -167,7 +167,7 @@ class BookingModal extends Component {
     
             if (!isValidEmail || !isValidPhoneNumber) return;
 
-            let date = new Date(this.state.birthDay).getTime();
+            let birthDay = new Date(this.state.birthDay).getTime();
             let timeString = this.buildTimeBooking(this.props.dataScheduleTime);
             let doctorName = this.buildDoctorName(this.props.dataScheduleTime);
             let res = await postPatientBookAppointment({
@@ -176,13 +176,14 @@ class BookingModal extends Component {
                 email: this.state.email,
                 address: this.state.address,
                 reason: this.state.reason,
-                date: date,
+                birthDay: birthDay,
                 selectedGender: this.state.selectedGender.value,
                 doctorId: this.state.doctorId,
                 timeType: this.state.timeType,
                 language: this.props.language,
                 timeString: timeString,
                 doctorName: doctorName,
+                date: this.props.dataScheduleTime.date,
             });
     
             if (res && res.errCode === 0 && res.errSubCode === 1) {
