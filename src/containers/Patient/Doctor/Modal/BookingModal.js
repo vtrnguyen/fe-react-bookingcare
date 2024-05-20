@@ -199,6 +199,7 @@ class BookingModal extends Component {
                     selectedGender: '',
                 });
             } else if (res && res.errCode === 0 && res.errSubCode === 0) {
+                // toast.success("Booking user is successfully");
                 toast.success(`${res.errMessage}`);
             } else {
                 toast.error("Booking a new appointment is not successfully!!!");
