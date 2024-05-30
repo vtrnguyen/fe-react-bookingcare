@@ -8,6 +8,7 @@ import './Header.scss';
 import { LANGUAGES, USER_ROLE } from "../../utils";
 import { FormattedMessage } from 'react-intl';
 import _ from "lodash";
+import { withRouter } from 'react-router';
  
 class Header extends Component {
 
@@ -42,8 +43,13 @@ class Header extends Component {
 
     }
 
+    hanldeLogOut = () => {
+        this.props.processLogout();
+        this.props.history.push('/login');
+    }
+
     render() {
-        let { processLogout, language, userInfo } = this.props;
+        let { language, userInfo } = this.props;
         let viName = userInfo ? userInfo.lastName + ' ' + userInfo.firstName : '';
         let enName = userInfo ? userInfo.firstName + ' ' +  userInfo.lastName : '';
         return (
@@ -68,7 +74,7 @@ class Header extends Component {
                     </span>
 
                     {/* nút logout */}
-                    <div className="btn btn-logout" onClick={processLogout} title="Log out">
+                    <div className="btn btn-logout" onClick={this.hanldeLogOut} title="Log out">
                         <i className="fas fa-sign-out-alt"></i>
                     </div>
                 </div>
@@ -93,4 +99,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
