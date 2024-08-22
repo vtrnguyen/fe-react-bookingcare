@@ -96,6 +96,10 @@ const getAllBookedPatient = (inputData) => {
     return axios.get(`/api/get-list-booked-patient?doctorId=${inputData.doctorId}&date=${inputData.date}`);
 }
 
+const postSendingRemedy = (inputData) => {
+    return axios.post('/api/send-remedy', inputData);
+}
+
 export {
     handleLoginApi, getAllUsers, 
     createNewUserService, deleteUserService, editUserService, getAllCodeService,
@@ -106,5 +110,5 @@ export {
     createNewSpecialty, getAllSpecialty,
     getDetailSpecialtyById, createNewClinic,
     getAllClinic, getDetailClinictyById,
-    getAllBookedPatient
+    getAllBookedPatient, postSendingRemedy
 }

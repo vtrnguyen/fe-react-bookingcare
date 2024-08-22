@@ -3,8 +3,12 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import "./ManagePatient.scss";
 import DatePicker from '../../../components/Input/DatePicker';
-import { getAllBookedPatient } from '../../../services/userService';
+import { getAllBookedPatient, postSendingRemedy } from '../../../services/userService';
 import moment from 'moment';
+import { LANGUAGES } from '../../../utils';
+import RemedyModal from './RemedyModal';
+import { toast } from 'react-toastify';
+import LoadingOverlay from 'react-loading-overlay';
 
 class ManagePatient extends Component {
 
@@ -13,6 +17,10 @@ class ManagePatient extends Component {
         this.state = {
             bookingDate: moment(new Date()).startOf('day').valueOf(),
             dataPatient: [],
+            openRemedyModal: false,
+            dataRemedyModal: {},
+            closeRemedyModal: false,
+            isShowLoading: false,
         }
     }
 
@@ -50,82 +58,150 @@ class ManagePatient extends Component {
     handleOnChangeDatePicker = (date) => {
         this.setState({
             bookingDate: date[0],
-        }, () => {
-            this.checkUser();
+        }, async () => {
+            await this.checkUser();
         });
     }
 
-    handleBtnConfirm = () => {
+    handleBtnConfirm = (item) => {
+        let data = {
+            doctorId: item.doctorId,
+            patientId: item.patientId,
+            email: item.patientData.email,
+            timeType: item.timeType,
+            patientName: item.patientData.firstName,
+            bookingTime: item.timeTypeDataConfirm,
+        }
 
+        this.setState({
+            openRemedyModal: true,
+            dataRemedyModal: data,
+        });
     }
 
-    handleBtnSendReceipt = () => {
+    handleCloseRemedyModal = () => {
+        this.setState({
+            openRemedyModal: false,
+            dataRemedyModal: {}
+        })
+    }
 
+    handleSendRemedy = async (dataFromRemedyModal) => {
+        let { dataRemedyModal } = this.state;
+
+        this.setState({
+            isShowLoading: true,
+        });
+
+        let res = await postSendingRemedy({
+            email: dataFromRemedyModal.email,
+            imgBase64: dataFromRemedyModal.imgBase64,
+            doctorId: dataRemedyModal.doctorId,
+            patientId: dataRemedyModal.patientId,
+            timeType: dataRemedyModal.timeType,
+            language: this.props.language,
+            patientName: dataRemedyModal.patientName,
+            bookingTime: dataRemedyModal.bookingTime,
+        });
+
+        if (res && res.errCode === 0) {
+            this.setState({
+                isShowLoading: false,
+            });
+
+            toast.success("Sending remedy is success.");
+            this.checkUser();
+            this.handleCloseRemedyModal();
+        } else {
+            this.setState({
+                isShowLoading: false,
+            });
+
+            toast.error("Send remedy is not success!!!");
+        }
     }
 
     render() {
-        let { dataPatient } = this.state;
+        let { language } = this.props;
+        let { dataPatient, openRemedyModal, dataRemedyModal } = this.state;
 
         return (
-            <div className="manage-patient-container">
-                <div className="manage-patient-title">
-                    Quản lý bệnh nhân đặt lịch khám
-                </div>
-                <div className="manage-patient-body row">
-                    <div className="col-4 form-group">
-                        <label>Chọn ngày khám</label>
-                        <DatePicker 
-                            onChange={this.handleOnChangeDatePicker}
-                            className="form-control"
-                            value={this.state.bookingDate}
-                        />
-                    </div>
-                    <div className="col-12 table-manage-patient">
-                        <table style={{ width: "100%" }}>
-                            <tbody>
-                                <tr>
-                                    <th>STT</th>
-                                    <th>Thời gian</th>
-                                    <th>Họ và tên</th>
-                                    <th>Địa chỉ</th>
-                                    <th>Giới tính</th>
-                                    <th>Hành động</th>
-                                </tr>
-                                {
-                                    dataPatient && dataPatient.length > 0
-                                    ?
-                                        dataPatient.map((item, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{item.timeTypeDataConfirm.valueVi}</td>
-                                                    <td>{item.patientData.firstName}</td>
-                                                    <td>{item.patientData.address}</td>
-                                                    <td>{item.patientData.genderData.valueVi}</td>
-                                                    <td>
-                                                        <button 
-                                                            className="btn-confirm"
-                                                            onClick={() => this.handleBtnConfirm()}
-                                                        >Xác nhận
-                                                        </button>
-
-                                                        <button 
-                                                            className="send-receipt"
-                                                            onClick={() => this.handleBtnSendReceipt()}
-                                                        >Gửi hóa đơn
-                                                        </button>
-                                                    </td>
+            <>
+                <LoadingOverlay
+                    active={this.state.isShowLoading}
+                    spinner
+                    text={<FormattedMessage id="manage-patient.text-loading" />}
+                >
+                    <RemedyModal 
+                        openModal={openRemedyModal}
+                        dataRemedy={dataRemedyModal}
+                        closeModal={this.handleCloseRemedyModal}
+                        sendRemedy={this.handleSendRemedy}
+                    />
+                    <div className="manage-patient-container">
+                        <div className="manage-patient-title">
+                            <FormattedMessage id="manage-patient.manage-patient-title" />
+                        </div>
+                        <div className="manage-patient-body row">
+                            <div className="col-4 form-group">
+                                <label><FormattedMessage id="manage-patient.choose-booking-date" /></label>
+                                <DatePicker 
+                                    onChange={this.handleOnChangeDatePicker}
+                                    className="form-control"
+                                    value={this.state.bookingDate}
+                                />
+                            </div>
+                            <div className="col-12 table-manage-patient">
+                                <table style={{ width: "100%" }}>
+                                    <tbody>
+                                        <tr>
+                                            <th><FormattedMessage id="manage-patient.ordinal-number" /></th>
+                                            <th><FormattedMessage id="manage-patient.time" /></th>
+                                            <th><FormattedMessage id="manage-patient.full-name" /></th>
+                                            <th><FormattedMessage id="manage-patient.address" /></th>
+                                            <th><FormattedMessage id="manage-patient.gender" /></th>
+                                            <th><FormattedMessage id="manage-patient.actions" /></th>
+                                        </tr>
+                                        {
+                                            dataPatient && dataPatient.length > 0
+                                            ?
+                                                dataPatient.map((item, index) => {
+                                                    let timeType = language == LANGUAGES.VI 
+                                                        ? item.timeTypeDataConfirm.valueVi 
+                                                        : item.timeTypeDataConfirm.valueEn;
+                                                    let gender = language == LANGUAGES.VI 
+                                                        ? item.patientData.genderData.valueVi 
+                                                        : item.patientData.genderData.valueEn;
+                                                    return (
+                                                        <tr key={index}>
+                                                            <td>{index + 1}</td>
+                                                            <td>{timeType}</td>
+                                                            <td>{item.patientData.firstName}</td>
+                                                            <td>{item.patientData.address}</td>
+                                                            <td>{gender}</td>
+                                                            <td>
+                                                                <button 
+                                                                    className="btn-confirm"
+                                                                    onClick={() => this.handleBtnConfirm(item)}
+                                                                >
+                                                                    <FormattedMessage id="manage-patient.confirm-button" />
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    )
+                                                })
+                                            :
+                                                <tr>
+                                                    <td colSpan="6" style={{ textAlign: 'center' }}><FormattedMessage id="manage-patient.no-schedule" /></td>
                                                 </tr>
-                                            )
-                                        })
-                                    :
-                                        <div>Không có lịch hẹn nào</div>
-                                }
-                            </tbody>
-                        </table>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
+                </LoadingOverlay>
+            </>
         );
     }
 }

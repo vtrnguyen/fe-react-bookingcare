@@ -95,7 +95,8 @@
             "cancel-button": "Hủy",
             "booking-price": "Miễn phí đặt lịch.",
             "clinic-infor": "Thông tin phòng khám:",
-            "price-title": "Giá khám:"
+            "price-title": "Giá khám:",
+            "text-loading": "Đang gửi..."
         },
         "verify-email-booking": {
             "loading-data": "Đang tải dữ liệu",
@@ -139,5 +140,23 @@
         "label-address-input": "Địa chỉ",
         "label-image-input": "Ảnh cơ sở y tế",
         "btn-save": "Lưu"
+    },
+    "manage-patient": {
+        "manage-patient-title": "Quản lý bệnh nhân đặt lịch khám",
+        "text-loading": "Đang gửi đơn thuốc...",
+        "choose-booking-date": "Chọn ngày khám",
+        "ordinal-number": "Số thứ tự",
+        "time": "Thời gian",
+        "full-name": "Họ và tên",
+        "address": "Địa chỉ",
+        "gender": "Giới tính",
+        "actions": "Hành động",
+        "confirm-button": "Xác nhận",
+        "no-schedule": "Không có lịch hẹn nào",
+        "remery-modal": {
+            "title": "Gửi đơn thuốc khám bệnh",
+            "patient-email": "Email bệnh nhân",
+            "remedy-file": "Tệp đơn thuốc"
+        }
     }
 }

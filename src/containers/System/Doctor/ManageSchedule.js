@@ -143,6 +143,14 @@ class ManageSchedule extends Component {
 
                 if (response && response.errCode === 0) {
                     toast.success('Scheduling is successful');
+
+                    this.state.rangeTime.map((item, index) => {
+                        item.isSelected = false;
+                    });
+
+                    this.setState({
+                        rangeTime,
+                    });
                 } else {
                     toast.warn('Scheduling is not successful!!!');
                 }

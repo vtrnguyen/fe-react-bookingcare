@@ -95,7 +95,8 @@
             "cancel-button": "Cancel",
             "booking-price": "Booking is free.",
             "clinic-infor": "Cilic's information:",
-            "price-title": "Price:"
+            "price-title": "Price:",
+            "text-loading": "Sending..."
         },
         "verify-email-booking": {
             "loading-data": "Loading data",
@@ -139,5 +140,23 @@
         "label-address-input": "Address",
         "label-image-input": "CLinic image",
         "btn-save": "Save"
+    },
+    "manage-patient": {
+        "manage-patient-title": "Manage patient booking schedule",
+        "text-loading": "Sending...",
+        "choose-booking-date": "Choose booking date",
+        "ordinal-number": "Order",
+        "time": "Time",
+        "full-name": "Full name",
+        "address": "Address",
+        "gender": "Gender",
+        "actions": "Actions",
+        "confirm-button": "Confirm",
+        "no-schedule": "No data",
+        "remery-modal": {
+            "title": "Sending remedy information",
+            "patient-email": "Patient email",
+            "remedy-file": "Remedy file"
+        }
     }
 }
